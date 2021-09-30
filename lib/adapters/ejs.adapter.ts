@@ -35,15 +35,14 @@ export class EjsAdapter implements TemplateAdapter {
       mail.data.template,
       path.extname(mail.data.template),
     );
-    const templateDir =
-      mail.data.template.startsWith('./')
-        ? path.dirname(mail.data.template)
-        : get(mailerOptions, 'template.dir', '')
+    const templateDir = mail.data.template.startsWith('./')
+      ? path.dirname(mail.data.template)
+      : get(mailerOptions, 'template.dir', '');
     const templatePath = path.join(templateDir, templateName + templateExt);
 
     if (!this.precompiledTemplates[templateName]) {
       try {
-        const template = fs.readFileSync(templatePath, 'UTF-8');
+        const template = fs.readFileSync(templatePath, 'utf8');
 
         this.precompiledTemplates[templateName] = compile(template, {
           ...get(mailerOptions, 'template.options', {}),
